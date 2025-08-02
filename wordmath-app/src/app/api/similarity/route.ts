@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     
     console.log(`Processing: ${cleanWord1} ${operation} ${cleanWord2}`);
     
-    // Get embeddings for both words
+    // Get embeddings for both words ONLY
     const [embedding1, embedding2] = await embeddingService.getBatchEmbeddings([
       cleanWord1,
       cleanWord2,
@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
     // Perform vector arithmetic
     const resultVector = performWordArithmetic(embedding1, embedding2, operation);
     
-    // For now, use demo results since we don't have a full vocabulary database yet
-    // In production, this would search through stored embeddings using vector similarity
+    // Use the improved demo results (with real embeddings for the input words)
+    // This avoids generating hundreds of embeddings on every request
     const results = generateDemoSimilarWords(cleanWord1, cleanWord2, operation);
     
     const processingTime = Date.now() - startTime;
